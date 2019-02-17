@@ -31,30 +31,6 @@ func Loader(L *lua.LState) int {
 	return 1
 }
 
-func newSecret(L *lua.LState) int {
-	obj := &v1.Secret{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newPersistentVolume(L *lua.LState) int {
-	obj := &v1.PersistentVolume{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newPersistentVolumeClaim(L *lua.LState) int {
-	obj := &v1.PersistentVolumeClaim{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newPod(L *lua.LState) int {
-	obj := &v1.Pod{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
 func newReplicationController(L *lua.LState) int {
 	obj := &v1.ReplicationController{}
 	L.Push(luar.New(L, obj))

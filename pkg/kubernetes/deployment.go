@@ -4,12 +4,11 @@ import (
 	"bytes"
 	"encoding/gob"
 
+	"fmt"
+
 	luar "github.com/geriBatai/gopher-luar"
 	lua "github.com/yuin/gopher-lua"
 	appsv1 "k8s.io/api/apps/v1"
-
-	// metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"fmt"
 
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
 )

@@ -46,7 +46,7 @@ if environment == "production" then
 end
 
 -- We can even use lua modules. In this case,
--- load test.lua
+-- load mod.lua
 local mod = require("example/mod")
 deployment4 = mod.deployment:copy()
 

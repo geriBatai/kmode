@@ -1,13 +1,8 @@
 package kubernetes
 
 import (
-	"bytes"
-	"encoding/gob"
-
 	"fmt"
 
-	luar "github.com/geriBatai/gopher-luar"
-	lua "github.com/yuin/gopher-lua"
 	appsv1 "k8s.io/api/apps/v1"
 
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
@@ -19,18 +14,11 @@ type Deployment struct {
 	*appsv1.Deployment
 }
 
-func (s *Deployment) Copy() *Deployment {
-	newobj := &Deployment{}
-	buff := new(bytes.Buffer)
-	enc := gob.NewEncoder(buff)
-	dec := gob.NewDecoder(buff)
-	enc.Encode(s)
-	dec.Decode(newobj)
-
-	return newobj
+func (d *Deployment) Copy() KubernetesResource {
+	return cloneResource(d, &Deployment{})
 }
 
-func newDeployment(L *lua.LState) int {
+func defaultDeployment() KubernetesResource {
 	generator := versioned.DeploymentBasicAppsGeneratorV1{
 		BaseDeploymentGenerator: versioned.BaseDeploymentGenerator{
 			Name:   "default",
@@ -42,11 +30,9 @@ func newDeployment(L *lua.LState) int {
 	if err != nil {
 		fmt.Printf("ERROR generating Deployment resource: %v\n", err)
 	}
-	obj := &Deployment{
+	return &Deployment{
 		Kind:       "Deployment",
 		APIVersion: "apps/v1",
 		Deployment: o.(*appsv1.Deployment),
 	}
-	L.Push(luar.New(L, obj))
-	return 1
 }

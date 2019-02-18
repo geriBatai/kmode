@@ -1,12 +1,8 @@
 package kubernetes
 
 import (
-	"bytes"
-	"encoding/gob"
 	"fmt"
 
-	luar "github.com/geriBatai/gopher-luar"
-	lua "github.com/yuin/gopher-lua"
 	v1 "k8s.io/api/core/v1"
 
 	//  "github.com/kubernetes/kubernetes/pkg/kubectl/generate/versioned"
@@ -19,19 +15,11 @@ type Service struct {
 	*v1.Service
 }
 
-func (s *Service) Copy() *Service {
-	newobj := &Service{}
-	buff := new(bytes.Buffer)
-	enc := gob.NewEncoder(buff)
-	dec := gob.NewDecoder(buff)
-	enc.Encode(s)
-	dec.Decode(newobj)
-
-	return newobj
+func (s *Service) Copy() KubernetesResource {
+	return cloneResource(s, &Service{})
 }
 
-func newService(L *lua.LState) int {
-	// "github.com/kubernetes/kubernetes/pkg/kubectl/generate/versioned"
+func defaultService() KubernetesResource {
 	generator := versioned.ServiceGeneratorV1{}
 	opts := map[string]interface{}{}
 	opts["default-name"] = "svc"
@@ -42,12 +30,9 @@ func newService(L *lua.LState) int {
 	if err != nil {
 		fmt.Printf("ERROR generating Service resource: %v\n", err)
 	}
-
-	obj := &Service{
+	return &Service{
 		Kind:       "Service",
 		APIVersion: "v1",
 		Service:    s.(*v1.Service),
 	}
-	L.Push(luar.New(L, obj))
-	return 1
 }

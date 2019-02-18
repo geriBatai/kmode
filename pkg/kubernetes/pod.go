@@ -1,11 +1,6 @@
 package kubernetes
 
 import (
-	"bytes"
-	"encoding/gob"
-
-	luar "github.com/geriBatai/gopher-luar"
-	lua "github.com/yuin/gopher-lua"
 	v1 "k8s.io/api/core/v1"
 )
 
@@ -15,23 +10,14 @@ type Pod struct {
 	*v1.Pod
 }
 
-func (s *Pod) Copy() *Pod {
-	newobj := &Pod{}
-	buff := new(bytes.Buffer)
-	enc := gob.NewEncoder(buff)
-	dec := gob.NewDecoder(buff)
-	enc.Encode(s)
-	dec.Decode(newobj)
-
-	return newobj
+func (p *Pod) Copy() KubernetesResource {
+	return cloneResource(p, &Pod{})
 }
 
-func newPod(L *lua.LState) int {
-	obj := &Pod{
+func defaultPod() KubernetesResource {
+	return &Pod{
 		Kind:       "Pod",
 		APIVersion: "v1",
 		Pod:        &v1.Pod{},
 	}
-	L.Push(luar.New(L, obj))
-	return 1
 }

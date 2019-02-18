@@ -1,27 +1,38 @@
 package kubernetes
 
 import (
+	"bytes"
+	"encoding/gob"
+
 	luar "github.com/geriBatai/gopher-luar"
 	lua "github.com/yuin/gopher-lua"
-	appsv1 "k8s.io/api/apps/v1"
-	v1 "k8s.io/api/core/v1"
 )
 
 var exports = map[string]lua.LGFunction{
-	"Service":               newService,
-	"Secret":                newSecret,
-	"PersistentVolume":      newPersistentVolume,
-	"PersistentVolumeClaim": newPersistentVolumeClaim,
-	"Pod":                   newPod,
-	"ReplicationController": newReplicationController,
-	"ResourceQuota":         newResourceQuota,
-	"ServiceAccount":        newServiceAccount,
-	"Volume":                newVolume,
-	"DaemonSet":             newDaemonSet,
-	"Deployment":            newDeployment,
-	"ReplicaSet":            newReplicaSet,
-	"StatefulSet":           newStatefulSet,
+	"Service":               bindResource(defaultService),
+	"Secret":                bindResource(defaultSecret),
+	"PersistentVolume":      bindResource(defaultPersistentVolume),
+	"PersistentVolumeClaim": bindResource(defaultPersistentVolumeClaim),
+	"Pod":                   bindResource(defaultPod),
+	"ReplicationController": bindResource(defaultReplicationController),
+	"ResourceQuota":         bindResource(defaultResourceQuota),
+	"ServiceAccount":        bindResource(defaultServiceAccount),
+	"Volume":                bindResource(defaultVolume),
+	"DaemonSet":             bindResource(defaultDaemonSet),
+	"Deployment":            bindResource(defaultDeployment),
+	"ReplicaSet":            bindResource(defaultReplicaSet),
+	"StatefulSet":           bindResource(defaultStatefulSet),
 }
+
+// KubernetesResource is an interface for generic Kubernetes
+// object, similar to runtime.Object in Kubernetes code
+type KubernetesResource interface {
+	Copy() KubernetesResource
+}
+
+// defaultFunc return a default resource for any
+// Kubernetes resource
+type defaultFunc func() KubernetesResource
 
 // Loader loads this module to lua
 func Loader(L *lua.LState) int {
@@ -31,44 +42,21 @@ func Loader(L *lua.LState) int {
 	return 1
 }
 
-func newReplicationController(L *lua.LState) int {
-	obj := &v1.ReplicationController{}
-	L.Push(luar.New(L, obj))
-	return 1
+func cloneResource(from, to KubernetesResource) KubernetesResource {
+	buff := new(bytes.Buffer)
+	enc := gob.NewEncoder(buff)
+	dec := gob.NewDecoder(buff)
+	enc.Encode(from)
+	dec.Decode(to)
+	return to
 }
 
-func newResourceQuota(L *lua.LState) int {
-	obj := &v1.ResourceQuota{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newServiceAccount(L *lua.LState) int {
-	obj := &v1.ServiceAccount{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newVolume(L *lua.LState) int {
-	obj := &v1.Volume{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newDaemonSet(L *lua.LState) int {
-	obj := &appsv1.DaemonSet{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newReplicaSet(L *lua.LState) int {
-	obj := &appsv1.ReplicaSet{}
-	L.Push(luar.New(L, obj))
-	return 1
-}
-
-func newStatefulSet(L *lua.LState) int {
-	obj := &appsv1.StatefulSet{}
-	L.Push(luar.New(L, obj))
-	return 1
+func bindResource(fn defaultFunc) lua.LGFunction {
+	return func(L *lua.LState) int {
+		// defaultValues := L.Get(-1)
+		// obj := fn(defaultValues)
+		obj := fn()
+		L.Push(luar.New(L, obj))
+		return 1
+	}
 }

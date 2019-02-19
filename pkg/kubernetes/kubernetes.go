@@ -24,15 +24,15 @@ var exports = map[string]lua.LGFunction{
 	"StatefulSet":           bindResource(defaultStatefulSet),
 }
 
-// KubernetesResource is an interface for generic Kubernetes
+// Resource is an interface for generic Kubernetes
 // object, similar to runtime.Object in Kubernetes code
-type KubernetesResource interface {
-	Clone() KubernetesResource
+type Resource interface {
+	Clone() Resource
 }
 
 // defaultFunc return a default resource for any
 // Kubernetes resource
-type defaultFunc func() KubernetesResource
+type defaultFunc func() Resource
 
 // Loader loads this module to lua
 func Loader(L *lua.LState) int {
@@ -42,7 +42,7 @@ func Loader(L *lua.LState) int {
 	return 1
 }
 
-func copyResource(from, to KubernetesResource) KubernetesResource {
+func copyResource(from, to Resource) Resource {
 	buff := new(bytes.Buffer)
 	enc := gob.NewEncoder(buff)
 	dec := gob.NewDecoder(buff)

@@ -3,11 +3,13 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"reflect"
 
 	"github.com/geriBatai/kmode/pkg/kubernetes"
-	"github.com/ghodss/yaml"
+	"github.com/kubernetes/cli-runtime/pkg/genericclioptions/printers"
 	"github.com/spf13/cobra"
 	lua "github.com/yuin/gopher-lua"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 var rootCmd = &cobra.Command{
@@ -59,9 +61,15 @@ func runLuaFile(L *lua.LState, filename string) error {
 func marshalValue(val lua.LValue) {
 	ud := val.(*lua.LUserData)
 
-	res, err := yaml.Marshal(ud.Value)
-	if err != nil {
-		fmt.Printf("Error marshaling to yaml: %s\n", err.Error())
+	switch ud.Value.(type) {
+	case kubernetes.Resource:
+		printer := &printers.YAMLPrinter{}
+		fmt.Printf("---\n")
+		err := printer.PrintObj(ud.Value.(runtime.Object), os.Stdout)
+		if err != nil {
+			fmt.Printf("ERROR: %v", err)
+		}
+	default:
+		fmt.Printf("TYPE: %v\n", reflect.TypeOf(ud.Value))
 	}
-	fmt.Printf("%v\n----\n", string(res))
 }

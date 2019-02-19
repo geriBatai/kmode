@@ -2,23 +2,28 @@ package kubernetes
 
 import (
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// ReplicationController is a wrapper around Kubernetes runtime.Object
+// for lua
 type ReplicationController struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*v1.ReplicationController
 }
 
-func (r *ReplicationController) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (r *ReplicationController) Clone() Resource {
 	return copyResource(r, &ReplicationController{})
 }
 
-func defaultReplicationController() KubernetesResource {
-	o := &v1.ReplicationController{}
+func defaultReplicationController() Resource {
+	o := &v1.ReplicationController{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ReplicationController",
+			APIVersion: "v1",
+		},
+	}
 	return &ReplicationController{
-		Kind:                  "ReplicationController",
-		APIVersion:            "v1",
 		ReplicationController: o,
 	}
 }

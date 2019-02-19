@@ -2,23 +2,28 @@ package kubernetes
 
 import (
 	appsv1 "k8s.io/api/apps/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// StatefulSet is a wrapper around Kubernetes runtime.Object
+// for lua
 type StatefulSet struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*appsv1.StatefulSet
 }
 
-func (s *StatefulSet) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (s *StatefulSet) Clone() Resource {
 	return copyResource(s, &StatefulSet{})
 }
 
-func defaultStatefulSet() KubernetesResource {
+func defaultStatefulSet() Resource {
 
 	return &StatefulSet{
-		Kind:        "StatefulSet",
-		APIVersion:  "apps/v1",
-		StatefulSet: &appsv1.StatefulSet{},
+		StatefulSet: &appsv1.StatefulSet{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "StatefulSet",
+				APIVersion: "apps/v1",
+			},
+		},
 	}
 }

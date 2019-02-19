@@ -25,8 +25,8 @@ deployment.metadata = metadata
 -- Create two identical copies for deployment
 -- object. As these are global variables, they
 -- will be present in generated output
-deployment2 = deployment:Clone()
-deployment3 = deployment:Clone()
+deployment2 = deployment:clone()
+deployment3 = deployment:clone()
 
 -- We could use setNamespace method instead
 -- of assigning deployment3.metadata.namespace

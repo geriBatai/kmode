@@ -2,22 +2,27 @@ package kubernetes
 
 import (
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// Pod is a wrapper around Kubernetes runtime.Object
+// for lua
 type Pod struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*v1.Pod
 }
 
-func (p *Pod) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (p *Pod) Clone() Resource {
 	return copyResource(p, &Pod{})
 }
 
-func defaultPod() KubernetesResource {
+func defaultPod() Resource {
 	return &Pod{
-		Kind:       "Pod",
-		APIVersion: "v1",
-		Pod:        &v1.Pod{},
+		Pod: &v1.Pod{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Pod",
+				APIVersion: "v1",
+			},
+		},
 	}
 }

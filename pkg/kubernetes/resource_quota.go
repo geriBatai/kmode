@@ -2,23 +2,28 @@ package kubernetes
 
 import (
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// ResourceQuota is a wrapper around Kubernetes runtime.Object
+// for lua
 type ResourceQuota struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*v1.ResourceQuota
 }
 
-func (r *ResourceQuota) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (r *ResourceQuota) Clone() Resource {
 	return copyResource(r, &ResourceQuota{})
 }
 
-func defaultResourceQuota() KubernetesResource {
-	o := &v1.ResourceQuota{}
+func defaultResourceQuota() Resource {
+	o := &v1.ResourceQuota{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ResourceQuota",
+			APIVersion: "v1",
+		},
+	}
 	return &ResourceQuota{
-		Kind:          "ResourceQuota",
-		APIVersion:    "v1",
 		ResourceQuota: o,
 	}
 }

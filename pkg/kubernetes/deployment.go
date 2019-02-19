@@ -4,21 +4,22 @@ import (
 	"fmt"
 
 	appsv1 "k8s.io/api/apps/v1"
-
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
 )
 
+// Deployment is a wrapper around Kubernetes runtime.Object
+// for lua
 type Deployment struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*appsv1.Deployment
 }
 
-func (d *Deployment) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (d *Deployment) Clone() Resource {
 	return copyResource(d, &Deployment{})
 }
 
-func defaultDeployment() KubernetesResource {
+func defaultDeployment() Resource {
 	generator := versioned.DeploymentBasicAppsGeneratorV1{
 		BaseDeploymentGenerator: versioned.BaseDeploymentGenerator{
 			Name:   "default",
@@ -30,9 +31,13 @@ func defaultDeployment() KubernetesResource {
 	if err != nil {
 		fmt.Printf("ERROR generating Deployment resource: %v\n", err)
 	}
+	gvk := schema.GroupVersionKind{
+		Kind:    "Deployment",
+		Version: "apps/v1",
+	}
+	o.GetObjectKind().SetGroupVersionKind(gvk)
+
 	return &Deployment{
-		Kind:       "Deployment",
-		APIVersion: "apps/v1",
 		Deployment: o.(*appsv1.Deployment),
 	}
 }

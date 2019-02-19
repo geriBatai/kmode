@@ -2,22 +2,27 @@ package kubernetes
 
 import (
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// PersistentVolume is a wrapper around Kubernetes runtime.Object
+// for lua
 type PersistentVolume struct {
-	Kind       string `json:"kind"`
-	APIVersion string `json:"apiVersion"`
 	*v1.PersistentVolume
 }
 
-func (p *PersistentVolume) Clone() KubernetesResource {
+// Clone returns a duplicate object. Used in lua as object::clone()
+func (p *PersistentVolume) Clone() Resource {
 	return copyResource(p, &PersistentVolume{})
 }
 
-func defaultPersistentVolume() KubernetesResource {
+func defaultPersistentVolume() Resource {
 	return &PersistentVolume{
-		Kind:             "PersistentVolume",
-		APIVersion:       "v1",
-		PersistentVolume: &v1.PersistentVolume{},
+		PersistentVolume: &v1.PersistentVolume{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "PersistentVolume",
+				APIVersion: "v1",
+			},
+		},
 	}
 }

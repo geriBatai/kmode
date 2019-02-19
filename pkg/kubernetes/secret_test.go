@@ -1,6 +1,7 @@
 package kubernetes_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/geriBatai/kmode/pkg/kubernetes"
@@ -20,9 +21,9 @@ func TestSecretInit(t *testing.T) {
 }
 
 func TestSecretClone(t *testing.T) {
-	s := &kubernetes.Secret{}
-	a := s.Clone()
-	if a != s {
+	s1 := &kubernetes.Secret{}
+	s2 := s1.Clone()
+	if !reflect.DeepEqual(s1, s2) {
 		t.Errorf("Clone failed")
 	}
 }

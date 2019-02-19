@@ -27,7 +27,7 @@ var exports = map[string]lua.LGFunction{
 // KubernetesResource is an interface for generic Kubernetes
 // object, similar to runtime.Object in Kubernetes code
 type KubernetesResource interface {
-	Copy() KubernetesResource
+	Clone() KubernetesResource
 }
 
 // defaultFunc return a default resource for any
@@ -42,7 +42,7 @@ func Loader(L *lua.LState) int {
 	return 1
 }
 
-func cloneResource(from, to KubernetesResource) KubernetesResource {
+func copyResource(from, to KubernetesResource) KubernetesResource {
 	buff := new(bytes.Buffer)
 	enc := gob.NewEncoder(buff)
 	dec := gob.NewDecoder(buff)

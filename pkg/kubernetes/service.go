@@ -15,8 +15,8 @@ type Service struct {
 	*v1.Service
 }
 
-func (s *Service) Copy() KubernetesResource {
-	return cloneResource(s, &Service{})
+func (s *Service) Clone() KubernetesResource {
+	return copyResource(s, &Service{})
 }
 
 func defaultService() KubernetesResource {

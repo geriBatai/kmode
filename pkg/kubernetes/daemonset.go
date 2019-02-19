@@ -10,8 +10,8 @@ type DaemonSet struct {
 	*appsv1.DaemonSet
 }
 
-func (d *DaemonSet) Copy() KubernetesResource {
-	return cloneResource(d, &DaemonSet{})
+func (d *DaemonSet) Clone() KubernetesResource {
+	return copyResource(d, &DaemonSet{})
 }
 
 func defaultDaemonSet() KubernetesResource {

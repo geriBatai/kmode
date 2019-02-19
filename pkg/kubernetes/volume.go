@@ -10,8 +10,8 @@ type Volume struct {
 	*v1.Volume
 }
 
-func (v *Volume) Copy() KubernetesResource {
-	return cloneResource(v, &Volume{})
+func (v *Volume) Clone() KubernetesResource {
+	return copyResource(v, &Volume{})
 }
 
 func defaultVolume() KubernetesResource {

@@ -10,8 +10,8 @@ type ResourceQuota struct {
 	*v1.ResourceQuota
 }
 
-func (r *ResourceQuota) Copy() KubernetesResource {
-	return cloneResource(r, &ResourceQuota{})
+func (r *ResourceQuota) Clone() KubernetesResource {
+	return copyResource(r, &ResourceQuota{})
 }
 
 func defaultResourceQuota() KubernetesResource {

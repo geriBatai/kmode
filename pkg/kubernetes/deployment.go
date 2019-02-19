@@ -14,8 +14,8 @@ type Deployment struct {
 	*appsv1.Deployment
 }
 
-func (d *Deployment) Copy() KubernetesResource {
-	return cloneResource(d, &Deployment{})
+func (d *Deployment) Clone() KubernetesResource {
+	return copyResource(d, &Deployment{})
 }
 
 func defaultDeployment() KubernetesResource {

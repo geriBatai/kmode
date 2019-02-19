@@ -10,8 +10,8 @@ type ReplicationController struct {
 	*v1.ReplicationController
 }
 
-func (r *ReplicationController) Copy() KubernetesResource {
-	return cloneResource(r, &ReplicationController{})
+func (r *ReplicationController) Clone() KubernetesResource {
+	return copyResource(r, &ReplicationController{})
 }
 
 func defaultReplicationController() KubernetesResource {

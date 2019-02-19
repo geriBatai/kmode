@@ -10,8 +10,8 @@ type ReplicaSet struct {
 	*appsv1.ReplicaSet
 }
 
-func (r *ReplicaSet) Copy() KubernetesResource {
-	return cloneResource(r, &ReplicaSet{})
+func (r *ReplicaSet) Clone() KubernetesResource {
+	return copyResource(r, &ReplicaSet{})
 }
 
 func defaultReplicaSet() KubernetesResource {

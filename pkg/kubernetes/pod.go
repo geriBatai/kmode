@@ -10,8 +10,8 @@ type Pod struct {
 	*v1.Pod
 }
 
-func (p *Pod) Copy() KubernetesResource {
-	return cloneResource(p, &Pod{})
+func (p *Pod) Clone() KubernetesResource {
+	return copyResource(p, &Pod{})
 }
 
 func defaultPod() KubernetesResource {

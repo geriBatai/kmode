@@ -10,8 +10,8 @@ type PersistentVolumeClaim struct {
 	*v1.PersistentVolumeClaim
 }
 
-func (p *PersistentVolumeClaim) Copy() KubernetesResource {
-	return cloneResource(p, &PersistentVolumeClaim{})
+func (p *PersistentVolumeClaim) Clone() KubernetesResource {
+	return copyResource(p, &PersistentVolumeClaim{})
 }
 
 func defaultPersistentVolumeClaim() KubernetesResource {

@@ -10,8 +10,8 @@ type ServiceAccount struct {
 	*v1.ServiceAccount
 }
 
-func (s *ServiceAccount) Copy() KubernetesResource {
-	return cloneResource(s, &ServiceAccount{})
+func (s *ServiceAccount) Clone() KubernetesResource {
+	return copyResource(s, &ServiceAccount{})
 }
 
 func defaultServiceAccount() KubernetesResource {

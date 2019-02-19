@@ -13,8 +13,8 @@ type Secret struct {
 	*v1.Secret
 }
 
-func (s *Secret) Copy() KubernetesResource {
-	return cloneResource(s, &Secret{})
+func (s *Secret) Clone() KubernetesResource {
+	return copyResource(s, &Secret{})
 }
 
 func defaultSecret() KubernetesResource {

@@ -25,8 +25,8 @@ deployment.metadata = metadata
 -- Create two identical copies for deployment
 -- object. As these are global variables, they
 -- will be present in generated output
-deployment2 = deployment:copy()
-deployment3 = deployment:copy()
+deployment2 = deployment:Clone()
+deployment3 = deployment:Clone()
 
 -- We could use setNamespace method instead
 -- of assigning deployment3.metadata.namespace
@@ -48,6 +48,6 @@ end
 -- We can even use lua modules. In this case,
 -- load mod.lua
 local mod = require("example/mod")
-deployment4 = mod.deployment:copy()
+deployment4 = mod.deployment:Clone()
 
 -- output is generated once all of this code is executed

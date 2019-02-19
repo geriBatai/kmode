@@ -10,8 +10,8 @@ type StatefulSet struct {
 	*appsv1.StatefulSet
 }
 
-func (s *StatefulSet) Copy() KubernetesResource {
-	return cloneResource(s, &StatefulSet{})
+func (s *StatefulSet) Clone() KubernetesResource {
+	return copyResource(s, &StatefulSet{})
 }
 
 func defaultStatefulSet() KubernetesResource {

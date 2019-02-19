@@ -18,3 +18,11 @@ func TestSecretInit(t *testing.T) {
 	}
 
 }
+
+func TestSecretClone(t *testing.T) {
+	s := &kubernetes.Secret{}
+	a := s.Clone()
+	if a != s {
+		t.Errorf("Clone failed")
+	}
+}

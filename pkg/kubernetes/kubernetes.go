@@ -3,6 +3,8 @@ package kubernetes
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
+	"reflect"
 
 	luar "github.com/geriBatai/gopher-luar"
 	lua "github.com/yuin/gopher-lua"
@@ -32,12 +34,12 @@ type Resource interface {
 
 // defaultFunc return a default resource for any
 // Kubernetes resource
-type defaultFunc func() Resource
+type defaultFunc func(options map[string]interface{}) Resource
 
 // Loader loads this module to lua
-func Loader(L *lua.LState) int {
-	mod := L.SetFuncs(L.NewTable(), exports)
-	L.Push(mod)
+func Loader(l *lua.LState) int {
+	mod := l.SetFuncs(l.NewTable(), exports)
+	l.Push(mod)
 
 	return 1
 }
@@ -53,10 +55,34 @@ func copyResource(from, to Resource) Resource {
 
 func bindResource(fn defaultFunc) lua.LGFunction {
 	return func(L *lua.LState) int {
-		// defaultValues := L.Get(-1)
-		// obj := fn(defaultValues)
-		obj := fn()
+		var options = map[string]interface{}{}
+
+		optionTb := L.OptTable(1, L.NewTable())
+		optionTb.ForEach(func(key, value lua.LValue) {
+			keystr, err := decodeLuaValue(key)
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+			val, err := decodeLuaValue(value)
+			options[keystr.(string)] = val
+		})
+
+		obj := fn(options)
 		L.Push(luar.New(L, obj))
 		return 1
 	}
+}
+
+func decodeLuaValue(val lua.LValue) (interface{}, error) {
+	switch v := val.(type) {
+	case *lua.LNilType:
+		return nil, nil
+	case lua.LBool:
+		return bool(v), nil
+	case lua.LString:
+		return string(v), nil
+	case lua.LNumber:
+		return float64(v), nil
+	}
+	return nil, fmt.Errorf("Cannot decode value %v of type %v", val, reflect.TypeOf(val))
 }

@@ -16,7 +16,7 @@ func (r *ResourceQuota) Clone() Resource {
 	return copyResource(r, &ResourceQuota{})
 }
 
-func defaultResourceQuota() Resource {
+func defaultResourceQuota(options map[string]interface{}) Resource {
 	o := &v1.ResourceQuota{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "ResourceQuota",

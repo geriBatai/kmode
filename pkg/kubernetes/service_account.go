@@ -16,7 +16,7 @@ func (s *ServiceAccount) Clone() Resource {
 	return copyResource(s, &ServiceAccount{})
 }
 
-func defaultServiceAccount() Resource {
+func defaultServiceAccount(options map[string]interface{}) Resource {
 	o := &v1.ServiceAccount{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "ServiceAccount",

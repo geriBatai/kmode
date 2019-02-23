@@ -16,7 +16,7 @@ func (p *PersistentVolumeClaim) Clone() Resource {
 	return copyResource(p, &PersistentVolumeClaim{})
 }
 
-func defaultPersistentVolumeClaim() Resource {
+func defaultPersistentVolumeClaim(options map[string]interface{}) Resource {
 	return &PersistentVolumeClaim{
 		PersistentVolumeClaim: &v1.PersistentVolumeClaim{
 			TypeMeta: metav1.TypeMeta{

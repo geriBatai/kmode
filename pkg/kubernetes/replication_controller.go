@@ -16,7 +16,7 @@ func (r *ReplicationController) Clone() Resource {
 	return copyResource(r, &ReplicationController{})
 }
 
-func defaultReplicationController() Resource {
+func defaultReplicationController(options map[string]interface{}) Resource {
 	o := &v1.ReplicationController{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "ReplicationController",

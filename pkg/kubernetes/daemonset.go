@@ -17,7 +17,7 @@ func (d *DaemonSet) Clone() Resource {
 	return copyResource(d, &DaemonSet{})
 }
 
-func defaultDaemonSet() Resource {
+func defaultDaemonSet(options map[string]interface{}) Resource {
 	return &DaemonSet{
 		DaemonSet: &appsv1.DaemonSet{
 			TypeMeta: metav1.TypeMeta{

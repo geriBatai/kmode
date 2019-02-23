@@ -21,7 +21,7 @@ func (s *Service) Clone() Resource {
 	return copyResource(s, &Service{})
 }
 
-func defaultService() Resource {
+func defaultService(options map[string]interface{}) Resource {
 	generator := versioned.ServiceGeneratorV1{}
 	opts := map[string]interface{}{}
 	opts["default-name"] = "svc"

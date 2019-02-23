@@ -17,7 +17,6 @@ func TestSecretInit(t *testing.T) {
 	if secret.Kind != "Secret" {
 		t.Errorf("Unexpected kind. Expected: Secret, Got: %v", secret.Kind)
 	}
-
 }
 
 func TestSecretClone(t *testing.T) {

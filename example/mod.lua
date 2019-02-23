@@ -13,17 +13,22 @@ mod.deployment.metadata = {
   }
 }
 
-
 mod.deployment.spec = {
   replicas = 4,
   selector = {
-    matchLabels = "name=deployment"
+    matchLabels = {
+      name = "deployment"
+    }
   },
 
-  containers = {
-    {
-      image = "nginx:nginx",
-      name = "container-name"
+  template = {
+    spec = {
+      containers = {
+        {
+          image = "nginx:nginx",
+          name = "container-name"
+        }
+      }
     }
   }
 }

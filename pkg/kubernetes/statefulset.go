@@ -16,7 +16,7 @@ func (s *StatefulSet) Clone() Resource {
 	return copyResource(s, &StatefulSet{})
 }
 
-func defaultStatefulSet() Resource {
+func defaultStatefulSet(options map[string]interface{}) Resource {
 
 	return &StatefulSet{
 		StatefulSet: &appsv1.StatefulSet{

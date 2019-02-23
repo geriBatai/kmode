@@ -1,4 +1,3 @@
-
 -- First we need to import our kubernetes module
 local kubernetes = require("kubernetes")
 
@@ -40,14 +39,14 @@ deployment3:setName("deployment3")
 -- As this is lua, we have conditionals
 -- and other stuff you could expect.
 if environment == "production" then
-  deployment2:setNamespace("prod")
-  deployment2.metadata.labels = labels
-  deployment2.spec.selector.matchLabels = labels
+deployment2:setNamespace("prod")
+deployment2.metadata.labels = labels
+deployment2.spec.selector.matchLabels = labels
 end
 
 -- We can even use lua modules. In this case,
 -- load mod.lua
 local mod = require("example/mod")
 deployment4 = mod.deployment:Clone()
-
+deployment4:setName("deployment4")
 -- output is generated once all of this code is executed

@@ -15,7 +15,7 @@ func (v *Volume) Clone() Resource {
 	return copyResource(v, &Volume{})
 }
 
-func defaultVolume() Resource {
+func defaultVolume(options map[string]interface{}) Resource {
 	return &Volume{
 		Volume: &v1.Volume{},
 	}

@@ -16,7 +16,7 @@ func (p *Pod) Clone() Resource {
 	return copyResource(p, &Pod{})
 }
 
-func defaultPod() Resource {
+func defaultPod(options map[string]interface{}) Resource {
 	return &Pod{
 		Pod: &v1.Pod{
 			TypeMeta: metav1.TypeMeta{

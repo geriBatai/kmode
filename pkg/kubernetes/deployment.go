@@ -19,10 +19,16 @@ func (d *Deployment) Clone() Resource {
 	return copyResource(d, &Deployment{})
 }
 
-func defaultDeployment() Resource {
+func defaultDeployment(options map[string]interface{}) Resource {
+	deploymentName := "default"
+	if options["name"] != nil {
+		deploymentName = options["name"].(string)
+	}
+	// deploymentNamespace := options["namespace"].(string)
+
 	generator := versioned.DeploymentBasicAppsGeneratorV1{
 		BaseDeploymentGenerator: versioned.BaseDeploymentGenerator{
-			Name:   "default",
+			Name:   deploymentName,
 			Images: []string{"nginx:default"},
 		},
 	}
@@ -36,7 +42,6 @@ func defaultDeployment() Resource {
 		Version: "apps/v1",
 	}
 	o.GetObjectKind().SetGroupVersionKind(gvk)
-
 	return &Deployment{
 		Deployment: o.(*appsv1.Deployment),
 	}

@@ -19,11 +19,10 @@ func (s *Secret) Clone() Resource {
 	return copyResource(s, &Secret{})
 }
 
-func defaultSecret() Resource {
+func defaultSecret(options map[string]interface{}) Resource {
 	generator := versioned.SecretGeneratorV1{}
-	opts := map[string]interface{}{}
-	opts["name"] = "secret"
-	o, err := generator.Generate(opts)
+	options["name"] = "secret"
+	o, err := generator.Generate(options)
 	if err != nil {
 		fmt.Printf("ERROR generating Secret resource: %v\n", err)
 	}

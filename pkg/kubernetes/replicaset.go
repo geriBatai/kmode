@@ -16,7 +16,7 @@ func (r *ReplicaSet) Clone() Resource {
 	return copyResource(r, &ReplicaSet{})
 }
 
-func defaultReplicaSet() Resource {
+func defaultReplicaSet(options map[string]interface{}) Resource {
 	o := &appsv1.ReplicaSet{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "ReplicaSet",

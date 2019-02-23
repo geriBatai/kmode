@@ -16,7 +16,7 @@ func (p *PersistentVolume) Clone() Resource {
 	return copyResource(p, &PersistentVolume{})
 }
 
-func defaultPersistentVolume() Resource {
+func defaultPersistentVolume(options map[string]interface{}) Resource {
 	return &PersistentVolume{
 		PersistentVolume: &v1.PersistentVolume{
 			TypeMeta: metav1.TypeMeta{

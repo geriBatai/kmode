@@ -20,7 +20,7 @@ func TestReplicaSetInit(t *testing.T) {
 }
 
 func TestReplicaSetClone(t *testing.T) {
-	o1 := &kubernetes.Deployment{}
+	o1 := &kubernetes.ReplicaSet{}
 	o2 := o1.Clone()
 	if !reflect.DeepEqual(o1, o2) {
 		t.Errorf("Clone failed")

@@ -12,36 +12,28 @@ type VM struct {
 	*lua.LState
 }
 
+// Options for lua vm
 type Options struct {
 	LuaPath string
 }
 
 // New returns a new VM object with kubernetes library loaded
-func New(options Options) *VM {
-	os.Setenv("LUA_PATH", options.LuaPath)
+func New(options *Options) *VM {
+	if options != nil {
+		os.Setenv("LUA_PATH", options.LuaPath)
+	}
 	return &VM{
 		LState: lua.NewState(),
 	}
 }
 
 // Run loads variables and runs code in main filename
-func (vm *VM) Run(vars, filename string) error {
-	if err := vm.run(vars); err != nil {
+func (vm *VM) Run(vars, contents string) error {
+	if err := vm.DoString(vars); err != nil {
 		return err
 	}
 	vm.PreloadModule("kubernetes", kubernetes.Loader)
-	return vm.run(filename)
-}
-
-func (vm *VM) run(filename string) error {
-	if filename != "" {
-		if _, err := os.Stat(filename); err != nil {
-			return err
-		}
-
-		return vm.DoFile(filename)
-	}
-	return nil
+	return vm.DoString(contents)
 }
 
 // KubernetesGlobals loads all global kubernetes resources

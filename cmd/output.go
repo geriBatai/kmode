@@ -19,13 +19,8 @@ func runOutput(cmd *cobra.Command, args []string) {
 	vm := luavm.New()
 	defer vm.Close()
 
-	if err := vm.Run(varFile); err != nil {
+	if err := vm.Run(varFile, filename); err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %v", err)
-		os.Exit(1)
-	}
-
-	if err := vm.Run(filename); err != nil {
-		fmt.Fprintf(os.Stderr, "ERROR: %v\n", err)
 		os.Exit(1)
 	}
 

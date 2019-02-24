@@ -13,16 +13,21 @@ type VM struct {
 
 // New returns a new VM object with kubernetes library loaded
 func New() *VM {
-	l := lua.NewState()
-	l.PreloadModule("kubernetes", kubernetes.Loader)
-
 	return &VM{
-		LState: l,
+		LState: lua.NewState(),
 	}
 }
 
-// Run is a wrapper around lua.DoFile
-func (vm *VM) Run(filename string) error {
+// Run loads variables and runs code in main filename
+func (vm *VM) Run(vars, filename string) error {
+	if err := vm.run(vars); err != nil {
+		return err
+	}
+	vm.PreloadModule("kubernetes", kubernetes.Loader)
+	return vm.run(filename)
+}
+
+func (vm *VM) run(filename string) error {
 	if filename != "" {
 		if _, err := os.Stat(filename); err != nil {
 			return err

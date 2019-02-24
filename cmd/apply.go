@@ -8,6 +8,8 @@ var applyCmd = &cobra.Command{
 	Run:   runApply,
 }
 
+var kubeconfig string
+
 func runApply(cmd *cobra.Command, args []string) {
 	// TBC
 }

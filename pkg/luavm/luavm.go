@@ -7,12 +7,18 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
+// VM is a wrapper around lua.LState
 type VM struct {
 	*lua.LState
 }
 
+type Options struct {
+	LuaPath string
+}
+
 // New returns a new VM object with kubernetes library loaded
-func New() *VM {
+func New(options Options) *VM {
+	os.Setenv("LUA_PATH", options.LuaPath)
 	return &VM{
 		LState: lua.NewState(),
 	}
@@ -33,8 +39,6 @@ func (vm *VM) run(filename string) error {
 			return err
 		}
 
-		// Must be a better way
-		// os.Setenv("LUA_PATH", "/.../?.lua")
 		return vm.DoFile(filename)
 	}
 	return nil

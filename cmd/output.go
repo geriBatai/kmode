@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/geriBatai/kmode/pkg/luavm"
 	"github.com/ghodss/yaml"
@@ -16,7 +17,11 @@ var outputCmd = &cobra.Command{
 }
 
 func runOutput(cmd *cobra.Command, args []string) {
-	vm := luavm.New()
+	modulePath := filepath.Dir(filename) + "/?.lua"
+
+	vm := luavm.New(luavm.Options{
+		LuaPath: modulePath,
+	})
 	defer vm.Close()
 
 	if err := vm.Run(varFile, filename); err != nil {

@@ -46,7 +46,7 @@ end
 
 -- We can even use lua modules. In this case,
 -- load mod.lua
-local mod = require("example/mod")
+local mod = require("mod")
 deployment4 = mod.deployment:Clone()
 deployment4:setName("deployment4")
 -- output is generated once all of this code is executed

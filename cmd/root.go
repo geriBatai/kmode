@@ -23,6 +23,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&filename, "filename", "filename.lua", "kmode filename")
 	rootCmd.PersistentFlags().StringVar(&varFile, "var-file", "", "variable file")
 	rootCmd.AddCommand(outputCmd)
+	rootCmd.AddCommand(applyCmd)
 }
 
 // Execute is the entry point for a kmode
@@ -31,16 +32,6 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-}
-
-func runLuaFile(L *lua.LState, filename string) error {
-	if filename != "" {
-		if _, err := os.Stat(filename); err != nil {
-			return err
-		}
-		return L.DoFile(filename)
-	}
-	return nil
 }
 
 func marshalValue(val lua.LValue) {

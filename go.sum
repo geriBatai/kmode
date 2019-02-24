@@ -7,6 +7,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/geriBatai/gopher-luar v1.0.5-0.20190223130215-71c787ae33bb h1:gdFD0N6kIxP54qsTfgaBYgcEAS7kNy7bM7mJP1iZAfE=
 github.com/geriBatai/gopher-luar v1.0.5-0.20190223130215-71c787ae33bb/go.mod h1:uA9TmNZ5WPd2uP9YS2nEZAojVwxoBKy03ESYZytB9V0=
+github.com/ghodss/yaml v1.0.0 h1:wQHKEahhL6wmXdzwWG11gIVCkOv05bNOh+Rxn0yngAk=
+github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/gogo/protobuf v1.2.0 h1:xU6/SpYbvkNYiptHJYEDRseDLvYE7wSqhYYNy0QSUzI=
 github.com/gogo/protobuf v1.2.0/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM=
@@ -70,6 +72,7 @@ k8s.io/api v0.0.0-20190111032252-67edc246be36 h1:XrFGq/4TDgOxYOxtNROTyp2ASjHjBII
 k8s.io/api v0.0.0-20190111032252-67edc246be36/go.mod h1:iuAfoD4hCxJ8Onx9kaTIt30j7jUFS00AXQi6QMi99vA=
 k8s.io/apimachinery v0.0.0-20190216013122-f05b8decd79c h1:02KEBFny6M5VWKj6Y8Ns27epjefTqLJXD4fvqP5tGFg=
 k8s.io/apimachinery v0.0.0-20190216013122-f05b8decd79c/go.mod h1:ccL7Eh7zubPUSh9A3USN90/OzHNSVN6zxzde07TDCL0=
+k8s.io/apimachinery v0.0.0-20190223094358-dcb391cde5ca h1:rOczZwIfERvL7YLSQ96uI3NUYamzdK/MmSDIfChQRBk=
 k8s.io/client-go v10.0.0+incompatible h1:F1IqCqw7oMBzDkqlcBymRq1450wD0eNqLE9jzUrIi34=
 k8s.io/client-go v10.0.0+incompatible/go.mod h1:7vJpHMYJwNQCWgzmNV+VYUl1zCObLyodBc8nIyt8L5s=
 k8s.io/klog v0.2.0 h1:0ElL0OHzF3N+OhoJTL0uca20SxtYt4X4+bzHeqrB83c=

@@ -1,8 +1,7 @@
 package kubernetes
 
 import (
-	"fmt"
-
+	log "github.com/sirupsen/logrus"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
@@ -35,7 +34,7 @@ func defaultDeployment(options map[string]interface{}) Resource {
 
 	o, err := generator.StructuredGenerate()
 	if err != nil {
-		fmt.Printf("ERROR generating Deployment resource: %v\n", err)
+		log.Errorf("ERROR generating Deployment resource: %v\n", err)
 	}
 	gvk := schema.GroupVersionKind{
 		Kind:    "Deployment",

@@ -1,8 +1,7 @@
 package kubernetes
 
 import (
-	"fmt"
-
+	log "github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
@@ -24,7 +23,7 @@ func defaultSecret(options map[string]interface{}) Resource {
 	options["name"] = "secret"
 	o, err := generator.Generate(options)
 	if err != nil {
-		fmt.Printf("ERROR generating Secret resource: %v\n", err)
+		log.Errorf("ERROR generating Secret resource: %v\n", err)
 	}
 
 	gvk := schema.GroupVersionKind{

@@ -7,6 +7,7 @@ import (
 	"reflect"
 
 	luar "github.com/geriBatai/gopher-luar"
+	log "github.com/sirupsen/logrus"
 	lua "github.com/yuin/gopher-lua"
 )
 
@@ -61,7 +62,7 @@ func bindResource(fn defaultFunc) lua.LGFunction {
 		optionTb.ForEach(func(key, value lua.LValue) {
 			keystr, err := decodeLuaValue(key)
 			if err != nil {
-				fmt.Println(err.Error())
+				log.Error(err.Error())
 			}
 			val, err := decodeLuaValue(value)
 			options[keystr.(string)] = val

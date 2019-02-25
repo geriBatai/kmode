@@ -1,7 +1,7 @@
 package kubernetes
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 
 	v1 "k8s.io/api/core/v1"
 
@@ -30,7 +30,7 @@ func defaultService(options map[string]interface{}) Resource {
 
 	s, err := generator.Generate(opts)
 	if err != nil {
-		fmt.Printf("ERROR generating Service resource: %v\n", err)
+		log.Errorf("ERROR generating Service resource: %v\n", err)
 	}
 
 	gvk := schema.GroupVersionKind{
